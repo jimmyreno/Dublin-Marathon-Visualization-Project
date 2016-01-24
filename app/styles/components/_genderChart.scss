@@ -1,0 +1,49 @@
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+.tick text {
+    fill: #eee;
+}
+
+.dot {
+  stroke: transparent;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 48px;
+  pointer-events: none;
+  border: 1px solid #888;
+  padding: 5px;
+  border-radius: 2px;
+  background: #444;
+}
+
+#color-legend {
+    display: inline-block;
+}
+.legend-text, .legend-items {
+    display: inline-block;
+}
+.legend-label {
+    color: #555;
+}
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 3px;
+    margin-left: 7px;
+        float: left;
+    margin-top: 5px;
+}
