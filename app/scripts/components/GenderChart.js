@@ -155,7 +155,7 @@ var GenderChart = (function () {
                     .attr('y', (height + 68) - (i * 23))
                     .attr('class', 'winner-marker-text')
                     .text(winner.NAME);
-            })
+            });
 
 
             console.log('added winner marker', dataset.winners.male);
