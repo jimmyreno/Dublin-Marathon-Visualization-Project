@@ -6,11 +6,26 @@
 .axis path,
 .axis line {
   fill: none;
-  stroke: #ddd;
+  stroke: #ccc;
   shape-rendering: crispEdges;
 }
+.x.axis {
+    .domain {
+        fill: transparent;
+        stroke: transparent;
+    }
+}
 .tick text {
-    fill: #eee;
+    fill: #aaa;
+    font-size: 11px;
+}
+.winner-marker {
+    stroke: #ccc;
+    stroke-width: 1px;
+}
+.winner-marker-text {
+    font-size: 11px;
+    fill: #777;
 }
 
 .dot {

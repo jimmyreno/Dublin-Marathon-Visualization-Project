@@ -43,7 +43,7 @@ var DatasetGenerator = (function (d3) {
     function prepareData(theData) {
 
         // theData MUST BE already sorted by CHIP_TIME ASCENDING
-        var currentY = 0, currentX = 0;
+        var currentY = 0, currentX = 0, theWinners = [];
 
         splitDurations = [];
         splitDurations[0] = [];
@@ -79,9 +79,30 @@ var DatasetGenerator = (function (d3) {
             else {
               d.splits = [];
             }
+
+            // store winner data
+            if (theWinners.length === 0) {
+                theWinners.push({
+                    NAME: d.NAME,
+                    CHIP_TIME: d.CHIP_TIME,
+                    xSequence: d.xSequence
+                });
+            }
+            else if (theWinners.length === 1) {
+                if (d.PLACE_IN_CAT === '1' && d.CAT.indexOf('F') > -1) {
+                    theWinners.push({
+                        NAME: d.NAME,
+                        CHIP_TIME: d.CHIP_TIME,
+                        xSequence: d.xSequence
+                    });
+                }
+            }
         });
 
-        dataset = theData;
+        dataset = {
+            data: theData,
+            winners: theWinners
+        };
     }
 
     function loadYear(year, callback) {

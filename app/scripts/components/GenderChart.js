@@ -7,7 +7,7 @@ var GenderChart = (function () {
         height = 400,
         year = '2013',
         backgroundColor = 'transparent',
-        margin = { top: 20, right: 20, bottom: 30, left: 40 },
+        margin = { top: 20, right: 20, bottom: 70, left: 40 },
 
         // setup x
         xValue = function(d) {
@@ -24,9 +24,15 @@ var GenderChart = (function () {
             .tickFormat(function (d) {
                 var hrs = Math.floor(d / 60),
                     mins = d - (hrs * 60);
-                return hrs + ':' + mins;
+                if (mins) {
+                    return hrs + ':' + mins;
+                }
+                else {
+                    return hrs + ':00';
+                }
             })
-            .tickValues([150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420, 435, 450, 465, 480, 495, 510, 525]),
+            .tickValues([150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420, 435, 450, 465, 480, 495, 510, 525])
+            .tickPadding(1),
 
         // setup y
         yValue = function(d) {
@@ -66,8 +72,11 @@ var GenderChart = (function () {
 
     function theGenderChart(selection) {
 
-        selection.each(function(data) {
+        selection.each(function(dataset) {
+            var data = dataset.data;
+            //console.log('winners', dataset.winners);
             var selectionEl = d3.select(this);
+
             // generate chart here; 'd' is the data and 'this' is the element
             selectionEl.style('background', backgroundColor);
             selectionEl.style('width', width + 'px');
@@ -92,27 +101,27 @@ var GenderChart = (function () {
               .append('text')
                 .attr('class', 'label')
                 .attr('x', width)
-                .attr('y', -6)
+                .attr('y', 26)
                 .style('text-anchor', 'end')
                 .text('chip time');
 
             // y-axis
-            svg.append('g')
-                .attr('class', 'y axis')
-                .call(yAxis)
-              .append('text')
-                .attr('class', 'label')
-                .attr('transform', 'rotate(0)')
-                .attr('y', -11)
-                .attr('dy', '.71em')
-                .style('text-anchor', 'end')
-                .text('seconds');
+            // svg.append('g')
+            //     .attr('class', 'y axis')
+            //     .call(yAxis)
+            //   .append('text')
+            //     .attr('class', 'label')
+            //     .attr('transform', 'rotate(0)')
+            //     .attr('y', -11)
+            //     .attr('dy', '.71em')
+            //     .style('text-anchor', 'end')
+            //     .text('seconds');
 
             // draw dots
             var dots = svg.selectAll('.dot').data(data).enter().append('circle')
               .filter(function(d) { return d.CHIP_TIME.indexOf(':') > -1; })
                 .attr('class', 'dot')
-                .attr('r', 1)
+                .attr('r', 1.5)
                 .attr('cx', xMap)
                 .attr('cy', yMap)
                 .style('fill', function(d) {
@@ -131,6 +140,27 @@ var GenderChart = (function () {
                          .duration(50)
                          .style('opacity', 0);
                 });
+
+            dataset.winners.forEach(function(winner, i) {
+                svg.append('line')
+                    .attr('class', 'winner-marker')
+                    .attr('x1', xMap(winner))
+                    .attr('x2', xMap(winner))
+                    .attr('y1', (height + 3))
+                    .attr('y2', (height + 58) - (i * 23))
+                    .attr('class', 'winner-marker');
+
+                svg.append('text')
+                    .attr('x', xMap(winner) - 1)
+                    .attr('y', (height + 68) - (i * 23))
+                    .attr('class', 'winner-marker-text')
+                    .text(winner.NAME);
+            })
+
+
+            console.log('added winner marker', dataset.winners.male);
+            // svg.append("text").attr("x", xScale(cutoffDate) + 10).attr("y", yCoord)
+            //    .text("projected");
         });
     }
 
