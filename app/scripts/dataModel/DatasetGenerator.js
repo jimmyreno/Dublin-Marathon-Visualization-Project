@@ -97,6 +97,7 @@ var DatasetGenerator = (function (d3) {
                     });
                 }
             }
+            d.id = d.PLACE;
         });
 
         dataset = {

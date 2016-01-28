@@ -16,7 +16,6 @@ $icon-font-path: '../fonts/';
 body {
   padding-bottom: 20px;
   padding-top: 50px;
-  color: #eee;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -96,4 +95,11 @@ body {
 
 #content-container {
     width: 98%;
+}
+
+#gender-chart {
+    margin-bottom: 100px;
+}
+#results-browser {
+    clear: both;
 }

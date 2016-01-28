@@ -42,7 +42,8 @@
     "globals": {
         "d3": true,
         "DatasetGenerator": true,
-        "GenderChart": true
+        "GenderChart": true,
+        "$": true
     }
   }
 }
