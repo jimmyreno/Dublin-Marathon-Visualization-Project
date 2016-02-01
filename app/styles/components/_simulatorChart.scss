@@ -1,0 +1,32 @@
+#simulator-chart {
+    width: 100%;
+    padding: 0px;
+    margin-top: 2px;
+    height: 700px;
+
+    #theMap {
+        height: 100%;
+    }
+}
+
+#route {
+    stroke: red;
+    fill: none;
+    opacity: 0.2;
+    stroke-width: 5px;
+}
+
+#marker {
+    fill: green;
+}
+
+#elevation-chart {
+    width: 400px;
+    height: 100px;
+    background: #ffffff;
+}
+.elev-line {
+    stroke: red !important;
+    stroke-width: 2px !important;
+    fill: none;
+}

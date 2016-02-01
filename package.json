@@ -41,8 +41,10 @@
     },
     "globals": {
         "d3": true,
+        "mapbox": true,
         "DatasetGenerator": true,
         "GenderChart": true,
+        "RaceSimulator": true,
         "$": true
     }
   }

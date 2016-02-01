@@ -11,13 +11,13 @@
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="/bower_components/mapbox.js/mapbox.css" />
+    <link rel='stylesheet' href='/bower_components/leaflet/dist/leaflet.css' />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link href='/bower_components/mapbox.js/mapbox.css' rel='stylesheet' />
     <!-- endbuild -->
 
     <!-- build:js scripts/vendor/modernizr.js -->
@@ -50,71 +50,12 @@
       </div>
     </nav>
 
-    <!-- <div class="container">
-        Color graph by:
-        <div class="btn-group" role="group" aria-label="...">
-          <button type="button" class="btn btn-default">Gender</button>
-          <button type="button" class="btn btn-default">Category</button>
-          <button type="button" class="btn btn-default">Pace</button>
-        </div>
-        <div class="legend-items"></div>
-    </div> -->
 
-    <div id="gender-chart" class="container"></div>
-    <div id="content-container" class="container"></div>
-
-    <div id='results-browser' class='container'>
-      <table class='table table-condensed table-hover'>
-          <caption>All Results</caption><button id='filter'>filter</button>
-          <thead>
-            <tr>
-              <th>Place</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Place in category</th>
-              <th>Club</th>
-            </tr>
-          </thead>
-          <tbody id='results-table'></tbody>
-      </table>
+    <div id="simulator-chart" class="container">
+        <div id="theMap"></div>
     </div>
 
-    <!-- <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">marathon app</h3>
-      </div>
-
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-          <h4>Sass</h4>
-          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
-
-          <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-          <h4>Modernizr</h4>
-          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
-        </div>
-      </div>
-
-      <div class="footer">
-        <p>♥ from the Yeoman team</p>
-      </div>
-    </div> -->
+    <div id="elevation-chart" class="container"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -132,7 +73,6 @@
     <script src="/bower_components/d3/d3.js"></script>
     <script src="/bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="/bower_components/mapbox.js/mapbox.js"></script>
-    <script src="/bower_components/mapbox-gl-js/mapbox-gl.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -153,9 +93,8 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/dataModel/DatasetGenerator.js"></script>
-    <script src="scripts/components/GenderChart.js"></script>
-    <script src="scripts/main.js"></script>
-    <!-- <script src="scripts/components/graph.js"></script> -->
+    <script src="scripts/components/RaceSimulator.js"></script>
+    <script src="scripts/map.js"></script>
 
     <!-- endbuild -->
   </body>
