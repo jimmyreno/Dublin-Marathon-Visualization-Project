@@ -5,7 +5,7 @@ var RaceSimulator = (function () {
 
     var theRaceSimulator = function(selection) {
         console.log('received simulator selection');
-    }
+    };
 
     return theRaceSimulator;
 
