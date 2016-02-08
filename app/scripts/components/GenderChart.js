@@ -3,7 +3,7 @@ var GenderChart = (function () {
 
     'use strict';
 
-    var width = 1366,
+    var width = 900,
         height = 360,
         year = '2013',
         backgroundColor = 'transparent',
@@ -37,7 +37,7 @@ var GenderChart = (function () {
                     return hrs + ':00';
                 }
             })
-            .tickValues([150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420, 435, 450, 465, 480, 495, 510, 525])
+            .tickValues([150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420])
             .tickPadding(1),
 
         // setup y

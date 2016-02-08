@@ -57,7 +57,7 @@ var DatasetGenerator = (function (d3) {
     function prepareData(theData) {
 
         // theData MUST BE already sorted by CHIP_TIME ASCENDING
-        var currentY = 0, currentX = 0, theWinners = [], startOffset = 0;
+        var currentY = 0, currentX = 0, theWinners = [], startOffset = 0, validatedData = [];
 
         splitDurations = [];
         splitDurations[0] = [];
@@ -68,62 +68,67 @@ var DatasetGenerator = (function (d3) {
 
         theData.forEach(function(d) {
             var y = getTotalMinutesInChipTime(d);
-            if (y > currentY) {
-                currentY = y;
-                currentX = 0;
-            }
-            currentX += 1;
-            d.xSequence = currentX * 20;
-            if (isValidSplits(d) && d.CHIP_TIME && d.CHIP_TIME !== 'n/a') {
-                startOffset = getSplitInSeconds(d.CHIP_TIME, d.FINISH_TIME);
-                d.split0 = startOffset;
-                d.split1 = getSplitInSeconds(0, d['10K']);
-                d.split2 = getSplitInSeconds(d['10K'], d.HALF);
-                d.split3 = getSplitInSeconds(d.HALF, d['30K']);
-                d.split4 = getSplitInSeconds(d['30K'], d.CHIP_TIME);
 
-                splitDurations[0].push(startOffset);
-                addToCategorySplits(0, startOffset, d.CAT);
+            if (y < 420) {
+                if (y > currentY) {
+                    currentY = y;
+                    currentX = 0;
+                }
+                currentX += 1;
+                d.xSequence = currentX * 20;
+                if (isValidSplits(d) && d.CHIP_TIME && d.CHIP_TIME !== 'n/a') {
+                    startOffset = getSplitInSeconds(d.CHIP_TIME, d.FINISH_TIME);
+                    d.split0 = startOffset;
+                    d.split1 = getSplitInSeconds(0, d['10K']);
+                    d.split2 = getSplitInSeconds(d['10K'], d.HALF);
+                    d.split3 = getSplitInSeconds(d.HALF, d['30K']);
+                    d.split4 = getSplitInSeconds(d['30K'], d.CHIP_TIME);
 
-                if (d.split1) {
-                    splitDurations[1].push((startOffset + d.split1));
-                    addToCategorySplits(1, (startOffset + d.split1), d.CAT);
-                }
-                if (d.split2) {
-                    splitDurations[2].push((startOffset + d.split1 + d.split2));
-                    addToCategorySplits(2, (startOffset + d.split1 + d.split2), d.CAT);
-                }
-                if (d.split3) {
-                    splitDurations[3].push((startOffset + d.split1 + d.split2 + d.split3));
-                    addToCategorySplits(3, (startOffset + d.split1 + d.split2 + d.split3), d.CAT);
-                }
-                if (d.split4) {
-                    splitDurations[4].push((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
-                    addToCategorySplits(4, (startOffset + d.split1 + d.split2 + d.split3 + d.split4), d.CAT);
-                }
-            }
-            else {
-                d.splits = [];
-            }
+                    splitDurations[0].push(startOffset);
+                    addToCategorySplits(0, startOffset, d.CAT);
 
-            // store winner data
-            if (theWinners.length === 0) {
-                theWinners.push({
-                    NAME: d.NAME,
-                    CHIP_TIME: d.CHIP_TIME,
-                    xSequence: d.xSequence
-                });
-            }
-            else if (theWinners.length === 1) {
-                if (d.PLACE_IN_CAT === '1' && d.CAT.indexOf('F') > -1) {
+                    if (d.split1) {
+                        splitDurations[1].push((startOffset + d.split1));
+                        addToCategorySplits(1, (startOffset + d.split1), d.CAT);
+                    }
+                    if (d.split2) {
+                        splitDurations[2].push((startOffset + d.split1 + d.split2));
+                        addToCategorySplits(2, (startOffset + d.split1 + d.split2), d.CAT);
+                    }
+                    if (d.split3) {
+                        splitDurations[3].push((startOffset + d.split1 + d.split2 + d.split3));
+                        addToCategorySplits(3, (startOffset + d.split1 + d.split2 + d.split3), d.CAT);
+                    }
+                    if (d.split4) {
+                        splitDurations[4].push((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
+                        addToCategorySplits(4, (startOffset + d.split1 + d.split2 + d.split3 + d.split4), d.CAT);
+                    }
+                }
+                else {
+                    d.splits = [];
+                }
+
+                // store winner data
+                if (theWinners.length === 0) {
                     theWinners.push({
                         NAME: d.NAME,
                         CHIP_TIME: d.CHIP_TIME,
                         xSequence: d.xSequence
                     });
                 }
+                else if (theWinners.length === 1) {
+                    if (d.PLACE_IN_CAT === '1' && d.CAT.indexOf('F') > -1) {
+                        theWinners.push({
+                            NAME: d.NAME,
+                            CHIP_TIME: d.CHIP_TIME,
+                            xSequence: d.xSequence
+                        });
+                    }
+                }
+                d.id = d.PLACE;
+
+                validatedData.push(d);
             }
-            d.id = d.PLACE;
         });
 
         splitDurations.forEach(function(splitSet) {
@@ -137,7 +142,7 @@ var DatasetGenerator = (function (d3) {
         });
 
         dataset = {
-            data: theData,
+            data: validatedData,
             winners: theWinners
         };
     }
@@ -146,37 +151,38 @@ var DatasetGenerator = (function (d3) {
         // theData MUST BE already sorted by CHIP_TIME ASCENDING
         var currentY = 0, currentX = 0, startOffset = 0, ret = {};
         theData.forEach(function(d, i) {
-
-            if (i < 3) {
-                console.log(d);
-            }
-
-            if (parseInt(d.PLACE) === position) {
-                console.log(d);
-                ret = d;
-                if (isValidSplits(d)) {
-                    startOffset = getSplitInSeconds(d.CHIP_TIME, d.FINISH_TIME);
-
-                    d.split0 = startOffset;
-                    d.split1 = getSplitInSeconds(0, d['10K']);
-                    d.split2 = getSplitInSeconds(d['10K'], d.HALF);
-                    d.split3 = getSplitInSeconds(d.HALF, d['30K']);
-                    d.split4 = getSplitInSeconds(d['30K'], d.CHIP_TIME);
-
-                    d.split0Rank = splitDurations[0].indexOf(startOffset);
-                    d.split1Rank = splitDurations[1].indexOf((startOffset + d.split1));
-                    d.split2Rank = splitDurations[2].indexOf((startOffset + d.split1 + d.split2));
-                    d.split3Rank = splitDurations[3].indexOf((startOffset + d.split1 + d.split2 + d.split3));
-                    d.split4Rank = splitDurations[4].indexOf((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
-
-                    d.split0CatRank = categorySplitDurations[d.CAT][0].indexOf(startOffset);
-                    d.split1CatRank = categorySplitDurations[d.CAT][1].indexOf((startOffset + d.split1));
-                    d.split2CatRank = categorySplitDurations[d.CAT][2].indexOf((startOffset + d.split1 + d.split2));
-                    d.split3CatRank = categorySplitDurations[d.CAT][3].indexOf((startOffset + d.split1 + d.split2 + d.split3));
-                    d.split4CatRank = categorySplitDurations[d.CAT][4].indexOf((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
+            if (getTotalMinutesInChipTime(d) < 420) {
+                if (i < 3) {
+                    console.log(d);
                 }
-                else {
-                    d.splits = [];
+
+                if (parseInt(d.PLACE) === position) {
+                    console.log(d);
+                    ret = d;
+                    if (isValidSplits(d)) {
+                        startOffset = getSplitInSeconds(d.CHIP_TIME, d.FINISH_TIME);
+
+                        d.split0 = startOffset;
+                        d.split1 = getSplitInSeconds(0, d['10K']);
+                        d.split2 = getSplitInSeconds(d['10K'], d.HALF);
+                        d.split3 = getSplitInSeconds(d.HALF, d['30K']);
+                        d.split4 = getSplitInSeconds(d['30K'], d.CHIP_TIME);
+
+                        d.split0Rank = splitDurations[0].indexOf(startOffset);
+                        d.split1Rank = splitDurations[1].indexOf((startOffset + d.split1));
+                        d.split2Rank = splitDurations[2].indexOf((startOffset + d.split1 + d.split2));
+                        d.split3Rank = splitDurations[3].indexOf((startOffset + d.split1 + d.split2 + d.split3));
+                        d.split4Rank = splitDurations[4].indexOf((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
+
+                        d.split0CatRank = categorySplitDurations[d.CAT][0].indexOf(startOffset);
+                        d.split1CatRank = categorySplitDurations[d.CAT][1].indexOf((startOffset + d.split1));
+                        d.split2CatRank = categorySplitDurations[d.CAT][2].indexOf((startOffset + d.split1 + d.split2));
+                        d.split3CatRank = categorySplitDurations[d.CAT][3].indexOf((startOffset + d.split1 + d.split2 + d.split3));
+                        d.split4CatRank = categorySplitDurations[d.CAT][4].indexOf((startOffset + d.split1 + d.split2 + d.split3 + d.split4));
+                    }
+                    else {
+                        d.splits = [];
+                    }
                 }
             }
         });
