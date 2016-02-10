@@ -1,0 +1,109 @@
+#timeline-chart {
+    width: 900px;
+    height: 600px;
+    background: transparent;
+}
+
+.zoom {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.y-axis path,
+.y-axis line,
+.x-axis path,
+.x-axis line,
+path.domain,
+line {
+  stroke: black;
+  fill: none;
+  stroke-width: 1px;
+}
+
+.y-axis g line {
+  stroke: grey;
+  fill: none;
+  stroke-width: 1px;
+}
+
+.graph-body .line {
+  height: 20px;
+  padding: 10px;
+}
+
+.event-bucket {
+  fill: #444;
+}
+.event-text {
+  fill: #444;
+}
+
+.event-bucket.event-p1,
+.single-event-marker.event-p1 {
+  fill: orange;
+}
+.event-bucket.event-p2,
+.single-event-marker.event-p2 {
+  fill: red;
+}
+
+.axis path.domain,
+.axisMinor path.domain{
+  stroke: transparent;
+}
+.x.axis .tick line,
+.x.axisMinor .tick line{
+  stroke: #aaa;
+}
+.y.axis .tick line {
+  stroke: #ddd;
+}
+.axis text {
+  fill: #999;
+  font-size: 12px;
+}
+.axisMinor text {
+  fill: #aaa;
+  font-size: 9px;
+}
+.y.axis text {
+  fill: #999;
+  font-size: 13px;
+}
+.zoom-layer {
+  fill: transparent;
+}
+.event-text {
+  font-size: 11px;
+}
+
+
+#reset-button-wrapper {
+    float: right;
+}
+#reset {
+    // background-image: url('../images/reset.png');
+    border: none;
+    height: 24px;
+    width: 24px;
+    margin-right: 30px;
+    opacity: 0.7;
+}
+#reset:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#reset:active {
+    transform: rotate(-30deg);
+}
+#timeline-chart {
+    width: 100%;
+}
+
+
+.winner-marker {
+    stroke: teal;
+    stroke-dasharray: 4px;
+    stroke-width: 1px;
+}

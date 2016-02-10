@@ -54,10 +54,20 @@ var DatasetGenerator = (function (d3) {
         return totalMins;
     }
 
+    function getMillisecondsInChipTime(d) {
+        var hrs = parseInt(d.split(':')[0]),
+            mins = parseInt(d.split(':')[1]),
+            seconds = parseInt(d.split(':')[2]),
+            totalMins = (hrs * 60) + mins,
+            totalSeconds = (totalMins * 60) + seconds;
+        return totalSeconds * 1000;
+    }
+
     function prepareData(theData) {
 
         // theData MUST BE already sorted by CHIP_TIME ASCENDING
-        var currentY = 0, currentX = 0, theWinners = [], startOffset = 0, validatedData = [];
+        var currentY = 0, currentX = 0, theWinners = [], startOffset = 0,
+            validatedData = [], sampleDate = new Date('01-01-2016').getTime();
 
         splitDurations = [];
         splitDurations[0] = [];
@@ -107,6 +117,7 @@ var DatasetGenerator = (function (d3) {
                 else {
                     d.splits = [];
                 }
+                d.millisChip = sampleDate + getMillisecondsInChipTime(d.CHIP_TIME);
 
                 // store winner data
                 if (theWinners.length === 0) {
@@ -141,9 +152,14 @@ var DatasetGenerator = (function (d3) {
             });
         });
 
+
         dataset = {
             data: validatedData,
-            winners: theWinners
+            winners: theWinners,
+            timeline : {
+                start: validatedData[0].millisChip - 120000,
+                end: validatedData[validatedData.length - 1].millisChip + 120000
+            }
         };
     }
 
