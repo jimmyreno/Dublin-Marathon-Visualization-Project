@@ -17,3 +17,6 @@ Also of note in this chart are the peaks at certain finsh times - these represen
 https://jimmyreno.github.io/map.html
 
 The race simulator is a map-based replay of a single athlete's race. The replay estimates the athlete's position and elapsed time, and also presents an elevation graph for their location. These estimates are based on the set of split-times taken during the race.
+
+
+#### For best enjoyment of these prototypes, please use a modern browser on a desktop/tablet.
