@@ -3,8 +3,8 @@ var GenderChart = (function () {
 
     'use strict';
 
-    var width = 900,
-        height = 360,
+    var width = 1300,
+        height = 600,
         year = '2013',
         backgroundColor = 'transparent',
         margin = { top: 20, right: 20, bottom: 70, left: 40 },
@@ -129,12 +129,19 @@ var GenderChart = (function () {
             // draw dots
             var dots = svg.selectAll('.dot')
                 .data(data, function(d) { return d.id; })
-                .enter().append('circle')
+                .enter()
+                .append('rect')
+                // .append('circle')
                 .filter(function(d) { return d.CHIP_TIME.indexOf(':') > -1; })
                 .attr('class', 'dot')
-                .attr('r', 1.5)
-                .attr('cx', xMap)
-                .attr('cy', yMap)
+                // .attr('r', 1.5)
+                // .attr('cx', xMap)
+                // .attr('cy', yMap)
+                .attr('width', 4)
+                .attr('height', 2)
+                .attr('transform', function(d) {
+                    return 'translate(' + xMap(d) + ',' + yMap(d) + ')';
+                })
                 //.attr('id', function(d) { return d.id;})
                 .style('fill', function(d) {
                     // Check if a filter is present

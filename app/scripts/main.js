@@ -14,12 +14,12 @@
         $overviewChart.datum(dataset).call(GenderChart.build);
 
         // Add the timeline chart
-        var timeline = Timeline
-            .width(parseInt($timelineEl.style('width')))
-            .height(500)// Timeline height is fixed, width responds to container size (#timeline-chart).
-            .startTime(dataset.timeline.start)
-            .endTime(dataset.timeline.end);
-        $timelineEl.datum(dataset.data.slice(0,8000)).call(timeline);
+        // var timeline = Timeline
+        //     .width(parseInt($timelineEl.style('width')))
+        //     .height(500)// Timeline height is fixed, width responds to container size (#timeline-chart).
+        //     .startTime(dataset.timeline.start)
+        //     .endTime(dataset.timeline.end);
+        // $timelineEl.datum(dataset.data.slice(0,5000)).call(timeline);
     }
 
     function main() {

@@ -18,6 +18,7 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link href='/bower_components/mapbox.js/mapbox.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.1/mapbox-gl.css' rel='stylesheet' />
     <!-- endbuild -->
 
     <!-- build:js scripts/vendor/modernizr.js -->
@@ -53,9 +54,20 @@
 
     <div id="simulator-chart" class="container">
         <div id="theMap"></div>
+
+        <div id="clock-chart" class="clock-chart">
+            <div class="clock-header">hours</div>
+            <div class="clock-header">minutes</div>
+            <div class="clock-header">seconds</div>
+        </div>
+
+        <div id="elevation-chart"></div>
+
+        <div id="estimated-position-chart"></div>
+
     </div>
 
-    <div id="elevation-chart" class="container"></div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -73,6 +85,7 @@
     <script src="/bower_components/d3/d3.js"></script>
     <script src="/bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="/bower_components/mapbox.js/mapbox.js"></script>
+    <script src="/bower_components/mapbox-gl-js/mapbox-gl.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

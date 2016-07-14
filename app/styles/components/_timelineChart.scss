@@ -107,3 +107,15 @@ line {
     stroke-dasharray: 4px;
     stroke-width: 1px;
 }
+
+.single-event-marker-svg{
+    width:2px;
+    height: 2px;
+}
+.single-event-marker-div {
+    // height: 1px;
+    height: 1px;
+}
+.single-event-marker {
+    fill: red;
+}

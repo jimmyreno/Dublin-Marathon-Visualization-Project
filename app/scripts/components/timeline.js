@@ -88,78 +88,49 @@ var Timeline = (function (d3) {
                         windowWidth = windowEnd - windowStart;
 
                     //var singleEventMarkers = svg.selectAll('.single-event-marker');
+                    //svg = d3.select('#sss');
+                    var singleEventMarkers = svg.selectAll('.single-event-marker-div').data(data, function(d) { return d.id; });
+                    // singleEventMarkers.enter().append('rect')
+                    //     .attr('width', 3)
+                    //     .attr('height', 3)
+                    //     .attr('class', function (d) {
+                    //         return 'single-event-marker';
+                    //     })
+                    //     .attr('transform', function(d) {
+                    //         var x = Math.max(0, xScale(new Date(d.millisChip))),
+                    //             y = yScale(d.CAT);
+                    //         return 'translate(' + x + ',' + y + ')';
+                    //     });
 
-                    var singleEventMarkers = svg.selectAll('.single-event-marker').data(data, function(d) { return d.id; });
-                    singleEventMarkers.enter().append('rect')
-                        .attr('width', 3)
-                        .attr('height', 3)
+                    singleEventMarkers.enter().append('div')
                         .attr('class', function (d) {
-                            return 'single-event-marker';
+                            return 'single-event-marker-div';
                         })
-                        .attr('y', function (d) {
-                            // TODO: Update
-                            // var overlaps = 0;
-                            // data.forEach(function(event){
-                            //     if (event.id !== d.id && event.type === d.type) {
-                            //         if (event.endTime > d.startTime && event.endTime < d.endTime) {
-                            //             overlaps++;
-                            //         }
-                            //         else if (event.startTime > d.startTime && event.startTime < d.endTime) {
-                            //             overlaps++;
-                            //         }
-                            //     }
-                            // });
-                            //
-                            // var offset = (overlaps * 3) + 1;
-                            // return yScale(d.type) - offset;
-                            return yScale(d.CAT);
-                        });
+                        .attr('style', function(d) {
+                            var x = Math.max(0, xScale(new Date(d.millisChip))),
+                                y = yScale(d.CAT);
+                            return 'transform:translate(' + y + 'px,' + x + 'px)';
+                        })
+                        .append('svg')
+                            .attr('class', 'single-event-marker-svg')
+                        .append('rect')
+                            .attr('width', 3)
+                            .attr('height', 3)
+                            .attr('class', function (d) {
+                                return 'single-event-marker';
+                            });
 
 
                     singleEventMarkers
-                        //.attr('width', 3)
-                        // function (d) {
-                            // var x1 = xScale(d.startTime),
-                            //     x2 = xScale(d.endTime);
-                            //
-                            // if (x1 < 0) {
-                            //     x1 = 0;
-                            // }
-                            // else if (x2 > width) {
-                            //     x2 = width;
-                            // }
-                            // if (x2 < 0 || x2 >= width) {
-                            //     return Math.max(0, (x2 - x1 - 1));
-                            // }
-                            // else {
-                            //     return Math.max(6, (x2 - x1 - 1));
-                            // }
-                        // })
-                        // .attr('height', 3)
-                        .attr('x', function (d) {
-                            // console.log(d);
-                            return Math.max(0, xScale(new Date(d.millisChip)));
+                        .attr('style', function(d) {
+                            var x = Math.max(0, xScale(new Date(d.millisChip))),
+                                y = yScale(d.CAT);
+                            return 'transform:translate(' + y + 'px,' + x + 'px)';
                         });
-                        // .attr('class', function (d) {
-                        //     return 'single-event-marker';
-                        // })
-                        // .attr('y', function (d) {
-                        //     // TODO: Update
-                        //     // var overlaps = 0;
-                        //     // data.forEach(function(event){
-                        //     //     if (event.id !== d.id && event.type === d.type) {
-                        //     //         if (event.endTime > d.startTime && event.endTime < d.endTime) {
-                        //     //             overlaps++;
-                        //     //         }
-                        //     //         else if (event.startTime > d.startTime && event.startTime < d.endTime) {
-                        //     //             overlaps++;
-                        //     //         }
-                        //     //     }
-                        //     // });
-                        //     //
-                        //     // var offset = (overlaps * 3) + 1;
-                        //     // return yScale(d.type) - offset;
-                        //     return yScale(d.CAT);
+                        // .attr('transform', function(d) {
+                        //     var x = Math.max(0, xScale(new Date(d.millisChip))),
+                        //         y = yScale(d.CAT);
+                        //     return 'translate(' + x + ',' + y + ')';
                         // });
 
                     singleEventMarkers.exit().remove();
@@ -248,6 +219,11 @@ var Timeline = (function (d3) {
                 .rangePoints([height, 0]);
 
             yAxis.tickSize(-width);
+
+            function redraw2() {
+                $chart.select('.x.axis').call(xAxis);
+                $chart.select('.y.axis').call(yAxis);
+            }
 
             function zoomed() {
                 redraw();

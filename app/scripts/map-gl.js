@@ -1,4 +1,4 @@
-(function (DatasetGenerator, RaceSimulator, d3, $) {
+(function (DatasetGenerator, RaceSimulator, d3, $, mapboxgl) {
 
     'use strict';
 
@@ -10,24 +10,28 @@
 
     function addMap() {
 
-        L.mapbox.accessToken = 'pk.eyJ1IjoiamltbXlyZW5vIiwiYSI6ImNpazJxeDIxcTM5dHp2Z2x6eWtrMzlwM2YifQ.sBf-ZbVIh4urUmLd0u6JJg';
+        mapboxgl.accessToken = 'pk.eyJ1IjoiamltbXlyZW5vIiwiYSI6ImNpazJxeDIxcTM5dHp2Z2x6eWtrMzlwM2YifQ.sBf-ZbVIh4urUmLd0u6JJg';
 
-        // Mapbox basemap
+
+        // // CartoDB basemap
+        // var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        //   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        // });
+        //
         // map = L.mapbox
-        //     .map('theMap', 'mapbox.light')
-        //     .setView([53.3352966, -6.25055027], 15);
+        //     .map('theMap', null)
+        //     .setView([53.3352966, -6.25055027], 14);
+        //
+        // // add the map
+        // map.addLayer(layer);
 
-        // CartoDB basemap
-        var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+
+        map = new mapboxgl.Map({
+            container: 'theMap', // container id
+            style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
+            center: [-6.25055027, 53.3352966], // starting position
+            zoom: 15 // starting zoom
         });
-
-        map = L.mapbox
-            .map('theMap', null)
-            .setView([53.3352966, -6.25055027], 14);
-
-        // add the map
-        map.addLayer(layer);
     }
 
     function addMileCounter() {
@@ -39,17 +43,17 @@
     }
 
     function addPositionEstimator(data) {
-        // var PositionControl = L.Control.extend({
-        //     options: {
-        //         position: 'bottomleft'
-        //     },
-        //     onAdd: function () {
-        //         return L.DomUtil.create('div', 'overall-position-chart');
-        //     }
-        // });
-        //
-        // map.addControl(new PositionControl());
-        d3.select('#estimated-position-chart').html('<div class="position-header">estimated overall position</div>');
+        var PositionControl = L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+            onAdd: function () {
+                return L.DomUtil.create('div', 'overall-position-chart');
+            }
+        });
+
+        map.addControl(new PositionControl());
+        d3.select('.overall-position-chart').html('<div class="position-header">estimated overall position</div>');
 
         var w = 180,
             h = 70,
@@ -60,7 +64,7 @@
             s4Est = parseInt(data.PLACE),
             startingPosition = data.split0Rank;
 
-        var livePos = d3.select('#estimated-position-chart');
+        var livePos = d3.select('.overall-position-chart');
 
         livePos.selectAll('.overall-position')
             .data([s1Est])
@@ -136,7 +140,9 @@
     }
 
     function addClock(data) {
-        // var ClockControl = L.Control.extend({
+
+        // //var ClockControl = L.Control.extend({
+        // var ClockControl = mapboxgl.Control.extend({
         //     options: {
         //         position: 'bottomleft'
         //     },
@@ -146,7 +152,9 @@
         // });
         //
         // map.addControl(new ClockControl());
-        // d3.select('.clock-chart').html('<div class="clock-header">hours</div><div class="clock-header">minutes</div><div class="clock-header">seconds</div>');
+
+
+        //d3.select('#clock-chart').html('<div class="clock-header">hours</div><div class="clock-header">minutes</div><div class="clock-header">seconds</div>');
 
         var w = 180,
             h = 70,
@@ -219,18 +227,18 @@
 
     function addElevationGraph(elevData) {
 
-        // var ElevationControl = L.Control.extend({
-        //     options: {
-        //         position: 'bottomleft'
-        //     },
-        //     onAdd: function () {
-        //         return L.DomUtil.create('div', 'elevation-chart');
-        //     }
-        // });
-        //
-        // map.addControl(new ElevationControl());
+        var ElevationControl = L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+            onAdd: function () {
+                return L.DomUtil.create('div', 'elevation-chart');
+            }
+        });
 
-        var w = 600,
+        map.addControl(new ElevationControl());
+
+        var w = 450,
             h = 70,
 
             xScale = d3.scale.linear()
@@ -268,7 +276,7 @@
                 .tension(0.7)
                 .interpolate('linear'),
 
-            svg = d3.select('#elevation-chart').append('svg')
+            svg = d3.select('.elevation-chart').append('svg')
                 .datum(points)
                 .attr('width', w)
                 .attr('height', h);
@@ -296,7 +304,10 @@
 
     function drawRoute() {
 
-        var svg = d3.select(map.getPanes().overlayPane).append('svg'),
+        var container = map.getCanvasContainer(),
+            svg = d3.select(container).append("svg"),
+
+        //var svg = d3.select(map.getPanes().overlayPane).append('svg'),
             g = svg.append('g').attr('class', 'leaflet-zoom-hide');
 
 
@@ -311,8 +322,9 @@
 
             var markerPath, startPoint, marker;
 
-            function projectPoint(x, y) {
-                var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+            function projectPoint(lng, lat) {
+                //var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+                var point = map.project(new mapboxgl.LngLat(lng, lat));
                 this.stream.point(point.x, point.y);
             }
 
@@ -320,7 +332,6 @@
             var path = d3.geo.path().projection(transform);
 
             function reset() {
-                //debugger;
                 var bounds = path.bounds(data),
                     topLeft = bounds[0],
                     bottomRight = bounds[1];
@@ -333,6 +344,7 @@
                 g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
 
                 routePath.attr('d', path).attr('id', 'route');
+
             }
 
             function tweenDash(){
@@ -350,10 +362,18 @@
                     marker.attr('transform', 'translate(' + p.x + ', ' + p.y + ')'); //move marker
 
                     a++;
-                    if ((a % 7) === 0) {
+                    if ((a % 200) === 0) {
                         //console.log('repan');
-                        newCenter = map.layerPointToLatLng(new L.Point(p.x, p.y));
-                        map.panTo(map.layerPointToLatLng(new L.Point(p.x, p.y)), 15);
+                        // newCenter = map.layerPointToLatLng(new L.Point(p.x, p.y));
+                        // map.panTo(map.layerPointToLatLng(new L.Point(p.x, p.y)), 15);
+
+                        newCenter = map.unproject([p.x, p.y]);
+                        console.log(newCenter);
+                        map.panTo(newCenter, 15);
+                        // map.jumpTo({
+                        //     center: newCenter,
+                        //     zoom: 15
+                        // })
                     }
                     if (a % 500 === 0) {
                         console.log(p);
@@ -400,7 +420,7 @@
                return coord[2];
             });
 
-            addElevationGraph(elevDataArray);
+            //addElevationGraph(elevDataArray);
 
 
 
@@ -425,7 +445,7 @@
 
     function buildSimulator(dataset) {
         addClock(dataset);
-        addPositionEstimator(dataset);
+        //addPositionEstimator(dataset);
     }
 
 
@@ -436,4 +456,4 @@
 
     main();
 
-}(DatasetGenerator, RaceSimulator, d3, $, 'mapbox.js'));
+}(DatasetGenerator, RaceSimulator, d3, $, mapboxgl));

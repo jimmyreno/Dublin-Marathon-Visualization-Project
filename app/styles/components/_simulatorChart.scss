@@ -12,7 +12,7 @@
 #route {
     stroke: red;
     fill: none;
-    opacity: 0.1;
+    //opacity: 0.1;
     stroke-width: 5px;
 }
 
@@ -20,18 +20,17 @@
     fill: green;
 }
 
-.elevation-chart,
-.clock-chart,
-.overall-position-chart {
+#clock-chart,
+#estimated-position-chart {
     //width: 100%;
-    height: 100%;
+    //height: 100%;
     padding: 10px;
     background: #ffffff;
     opacity: 0.8;
 
     .clock-header {
         display: inline;
-        padding-right: 40px;
+        padding-right: 24px;
     }
     .clock-text,
     .position-text {
@@ -41,12 +40,31 @@
     }
 }
 
-.elevation-chart {
-    width: 100%;
+#clock-chart {
+    position: absolute;
+    bottom: 120px;
+    left: 70px;
+    height: 100px;
 }
-.clock-chart,
-.overall-position-chart {
-    float: left;
+
+#elevation-chart {
+    width: 640px;
+    position: absolute;
+    left: 10px;
+    bottom: 20px;
+    background: #ffffff;
+    opacity: 0.8;
+    padding: 3px;
+}
+
+#clock-chart,
+#estimated-position-chart {
+    position: absolute;
+    left: 10px;
+}
+#estimated-position-chart {
+    bottom: 240px;
+    left: 10px;
 }
 .elev-line {
     stroke: red !important;

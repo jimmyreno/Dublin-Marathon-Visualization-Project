@@ -42,6 +42,7 @@
     "globals": {
         "d3": true,
         "mapbox.js": true,
+        "mapboxgl": true,
         "DatasetGenerator": true,
         "GenderChart": true,
         "RaceSimulator": true,
