@@ -156,7 +156,7 @@ var DatasetGenerator = (function (d3) {
         dataset = {
             data: validatedData,
             winners: theWinners,
-            timeline : {
+            timeline: {
                 start: validatedData[0].millisChip - 120000,
                 end: validatedData[validatedData.length - 1].millisChip + 120000
             }

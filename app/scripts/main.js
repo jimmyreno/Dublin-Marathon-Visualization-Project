@@ -1,4 +1,4 @@
-(function (DatasetGenerator, GenderChart, Timeline, d3, $) {
+(function (DatasetGenerator, GenderChart, d3, $) {
 
     'use strict';
 
@@ -41,4 +41,4 @@
 
     main();
 
-}(DatasetGenerator, GenderChart, Timeline, d3, $));
+}(DatasetGenerator, GenderChart, d3, $));

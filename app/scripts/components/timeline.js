@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: 1*/
 var Timeline = (function (d3) {
 
     'use strict';
@@ -32,7 +33,7 @@ var Timeline = (function (d3) {
         TEN_DAYS = ONE_DAY * 10,
         TWENTY_DAYS = ONE_DAY * 20,
         THIRTY_DAYS = ONE_DAY * 30,
-        SIX_DAYS_AGO_TIMESTAMP = Date.now() - (FIVE_DAYS + ONE_DAY),
+        //SIX_DAYS_AGO_TIMESTAMP = Date.now() - (FIVE_DAYS + ONE_DAY),
         NOW = Date.now(),
         startTime,
         endTime,
@@ -103,7 +104,7 @@ var Timeline = (function (d3) {
                     //     });
 
                     singleEventMarkers.enter().append('div')
-                        .attr('class', function (d) {
+                        .attr('class', function () {
                             return 'single-event-marker-div';
                         })
                         .attr('style', function(d) {
@@ -116,7 +117,7 @@ var Timeline = (function (d3) {
                         .append('rect')
                             .attr('width', 3)
                             .attr('height', 3)
-                            .attr('class', function (d) {
+                            .attr('class', function () {
                                 return 'single-event-marker';
                             });
 
@@ -215,15 +216,15 @@ var Timeline = (function (d3) {
                 .domain([new Date(startTime), endTime]);
 
             yScale.domain(['MU19', 'MS', 'M35', 'M40', 'M45', 'M50', 'M55', 'M60', 'M65', 'M70', 'M75', 'M80',
-                            'FU19', 'FS', 'F35', 'F40', 'F45', 'F50', 'F55', 'F60', 'F65', 'F70', 'F75', 'F80',])
+                            'FU19', 'FS', 'F35', 'F40', 'F45', 'F50', 'F55', 'F60', 'F65', 'F70', 'F75', 'F80'])
                 .rangePoints([height, 0]);
 
             yAxis.tickSize(-width);
 
-            function redraw2() {
-                $chart.select('.x.axis').call(xAxis);
-                $chart.select('.y.axis').call(yAxis);
-            }
+            // function redraw2() {
+            //     $chart.select('.x.axis').call(xAxis);
+            //     $chart.select('.y.axis').call(yAxis);
+            // }
 
             function zoomed() {
                 redraw();

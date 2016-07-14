@@ -305,7 +305,7 @@
     function drawRoute() {
 
         var container = map.getCanvasContainer(),
-            svg = d3.select(container).append("svg"),
+            svg = d3.select(container).append('svg'),
 
         //var svg = d3.select(map.getPanes().overlayPane).append('svg'),
             g = svg.append('g').attr('class', 'leaflet-zoom-hide');
